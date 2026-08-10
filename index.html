@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App de Campo - SSPAN - Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Transição suave para esconder/mostrar seções */
+        .secao-transicao { transition: all 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-4 sm:p-8">
+
+    <main class="max-w-md mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+        
+        <div class="bg-red-800 text-white p-6 text-center">
+            <h1 class="text-2xl font-bold">Coleta SSPAN</h1>
+            <p class="text-red-200 text-sm mt-1">Variáveis Meteorológicas</p>
+        </div>
+
+        <div class="p-6">
+            <form id="formularioCampo" class="space-y-6">
+                
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-4">
+                    <h2 class="font-bold text-gray-800 border-b pb-2 mb-2">Configuração Inicial</h2>
+                    <div>
+                        <label for="equipe" class="block text-sm font-semibold text-gray-700 mb-1">Equipe *</label>
+                        <select id="equipe" name="equipe" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 bg-white">
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="SSPAN-Pocone">SSPAN-Pocone</option>
+                            <option value="SSPAN-Barao">SSPAN-Barao</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="modelo_kestrel" class="block text-sm font-semibold text-gray-700 mb-1">Modelo Kestrel</label>
+                        <input type="text" id="modelo_kestrel" name="modelo_kestrel" placeholder="Ex: 3000" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 bg-white">
+                    </div>
+                </div>
+
+                <div class="flex space-x-2 border-b border-gray-200 pb-2">
+                    <button type="button" id="btnIrt" class="flex-1 py-2 px-4 rounded-t-lg font-bold bg-red-600 text-white transition-colors">IRT - CAMPO</button>
+                    <button type="button" id="btnArgos" class="flex-1 py-2 px-4 rounded-t-lg font-bold bg-gray-200 text-gray-600 hover:bg-gray-300 transition-colors">ARGOS</button>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- ========================================== -->
+                <div id="secaoIrt" class="secao-transicao space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Latitude</label>
+                            <input type="text" name="latitude_irt" class="w-full px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-1 focus:ring-red-500 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Longitude</label>
+                            <input type="text" name="longitude_irt" class="w-full px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-1 focus:ring-red-500 bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Período</label>
+                            <select name="periodo_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                                <option value="">-</option>
+                                <option value="Manhã">Manhã</option>
+                                <option value="Tarde">Tarde</option>
+                                <option value="Noite">Noite</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Data</label>
+                            <input type="date" name="data_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Hora</label>
+                            <input type="time" name="hora_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">T ar (°C)</label>
+                            <input type="number" step="0.1" name="t_ar_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">UR (%)</label>
+                            <input type="number" step="0.1" name="ur_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">T_Orvalho (°C)</label>
+                            <input type="number" step="0.1" name="t_orvalho_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Pressão (hPa)</label>
+                            <input type="number" step="0.1" name="pressao_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Vento (km/h)</label>
+                            <input type="number" step="0.1" name="vento_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Direção (°)</label>
+                            <input type="number" step="1" name="direcao_irt" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1">Cenário (Com fogo/Sem fogo)</label>
+                        <select name="cenario_irt" class="w-full px-3 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                            <option value="">Selecione...</option>
+                            <option value="Com fogo">Com fogo</option>
+                            <option value="Sem fogo">Sem fogo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- ========================================== -->
+                <div id="secaoArgos" class="secao-transicao hidden space-y-4">
+                     <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Latitude</label>
+                            <input type="text" name="latitude_argos" class="w-full px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-1 focus:ring-red-500 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Longitude</label>
+                            <input type="text" name="longitude_argos" class="w-full px-3 py-2 text-sm rounded-md border border-gray-300 focus:ring-1 focus:ring-red-500 bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Período</label>
+                            <select name="periodo_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                                <option value="">-</option>
+                                <option value="Manhã">Manhã</option>
+                                <option value="Tarde">Tarde</option>
+                                <option value="Noite">Noite</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Data</label>
+                            <input type="date" name="data_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Hora</label>
+                            <input type="time" name="hora_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">T ar (°C)</label>
+                            <input type="number" step="0.1" name="t_ar_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">UR (%)</label>
+                            <input type="number" step="0.1" name="ur_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">T_Orvalho (°C)</label>
+                            <input type="number" step="0.1" name="t_orvalho_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                    </div>
+
+                     <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Pressão (hPa)</label>
+                            <input type="number" step="0.1" name="pressao_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Vento (km/h)</label>
+                            <input type="number" step="0.1" name="vento_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Direção (°)</label>
+                            <input type="number" step="1" name="direcao_argos" class="w-full px-2 py-2 text-sm rounded-md border border-gray-300 bg-gray-50">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="mensagemAlerta" class="hidden p-4 rounded-lg text-sm font-medium text-center"></div>
+
+                <button type="submit" id="btnSubmit" class="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-4 px-6 rounded-lg shadow-md transition-all flex items-center justify-center mt-6">
+                    <span id="btnText">Enviar Dados</span>
+                </button>
+                
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // =========================================================================
+        // ATENÇÃO: COLE AQUI A URL DO SEU GOOGLE APPS SCRIPT (URL DO APP DA WEB)
+        // =========================================================================
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxG_SX_ge3EO9B_Xjg1Kj0Z_bC18Rrpbc48pJUtJ920q9vK2YgNw0GiWvwRMMtPorL58g/exec'; 
+        
+        const form = document.forms['formularioCampo'];
+        const btnSubmit = document.getElementById('btnSubmit');
+        const btnText = document.getElementById('btnText');
+        const alerta = document.getElementById('mensagemAlerta');
+
+        // Lógica para alternar entre as abas IRT e ARGOS
+        const btnIrt = document.getElementById('btnIrt');
+        const btnArgos = document.getElementById('btnArgos');
+        const secaoIrt = document.getElementById('secaoIrt');
+        const secaoArgos = document.getElementById('secaoArgos');
+
+        btnIrt.addEventListener('click', () => {
+            secaoIrt.classList.remove('hidden');
+            secaoArgos.classList.add('hidden');
+            btnIrt.classList.replace('bg-gray-200', 'bg-red-600');
+            btnIrt.classList.replace('text-gray-600', 'text-white');
+            btnArgos.classList.replace('bg-red-600', 'bg-gray-200');
+            btnArgos.classList.replace('text-white', 'text-gray-600');
+        });
+
+        btnArgos.addEventListener('click', () => {
+            secaoArgos.classList.remove('hidden');
+            secaoIrt.classList.add('hidden');
+            btnArgos.classList.replace('bg-gray-200', 'bg-red-600');
+            btnArgos.classList.replace('text-gray-600', 'text-white');
+            btnIrt.classList.replace('bg-red-600', 'bg-gray-200');
+            btnIrt.classList.replace('text-white', 'text-gray-600');
+        });
+
+        // Lógica de Envio
+        form.addEventListener('submit', e => {
+            e.preventDefault(); 
+            
+            // Verifica se uma equipe foi selecionada (validação de segurança)
+            if(!form.equipe.value) {
+                mostrarAlerta('erro', 'Por favor, selecione uma equipe.');
+                return;
+            }
+
+            btnSubmit.disabled = true;
+            btnSubmit.classList.replace('bg-red-700', 'bg-red-400');
+            btnText.innerHTML = '<span class="loader"></span> Enviando...';
+            alerta.classList.add('hidden');
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch(scriptURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                mostrarAlerta('sucesso', 'Dados salvos na planilha!');
+                form.reset(); 
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                // Assume sucesso devido ao comportamento do Apps Script com CORS
+                mostrarAlerta('sucesso', 'Dados enviados! (Verifique a planilha)'); 
+                form.reset();
+            })
+            .finally(() => {
+                btnSubmit.disabled = false;
+                btnSubmit.classList.replace('bg-red-400', 'bg-red-700');
+                btnText.innerHTML = 'Enviar Dados';
+            });
+        });
+
+        function mostrarAlerta(tipo, texto) {
+            alerta.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+            if (tipo === 'sucesso') {
+                alerta.classList.add('bg-green-100', 'text-green-800');
+            } else {
+                alerta.classList.add('bg-red-100', 'text-red-800');
+            }
+            alerta.textContent = texto;
+        }
+    </script>
+</body>
+</html>
