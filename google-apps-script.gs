@@ -9,10 +9,7 @@ function doPost(e) {
 
     var equipeParaAba = {
       "SSPAN-Pantanal 01 (pocone)": "SSPAN-Pantanal 01 (pocone)",
-      "SSPAN-Pantanal 02": "SSPAN-Pantanal 02",
-      // Compatibilidade com a versão anterior do app
-      "SSPAN-Pocone": "SSPAN-Pantanal 01 (pocone)",
-      "SSPAN-Barao": "SSPAN-Pantanal 02"
+      "SSPAN-Pantanal 02": "SSPAN-Pantanal 02"
     };
 
     if (!equipeParaAba[equipe]) {
